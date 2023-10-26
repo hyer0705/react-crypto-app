@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import fetchCoins from "../api";
+import makeImgPath from "../utils/makePath";
 
 const Header = styled.header``;
 const Title = styled.h1`
@@ -90,9 +91,7 @@ export default function Coins() {
             {coinList?.map((coin) => (
               <CoinItem key={coin.id}>
                 <Link to={`/${coin.id}`} state={{ coinName: coin.name }}>
-                  <Img
-                    src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
-                  />
+                  <Img src={makeImgPath(coin.symbol.toLowerCase())} />
                   <CoinTitle>{coin.name}</CoinTitle>
                 </Link>
               </CoinItem>
