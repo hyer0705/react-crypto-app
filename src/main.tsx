@@ -1,14 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import reset from "styled-reset";
 import { router } from "./router.tsx";
+import { darkTheme } from "./app-theme.ts";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
   * {
     box-sizing: border-box;
+    background-color: ${(props) => props.theme.colors.bg};
+    color: ${(props) => props.theme.colors.text};
   }
   a {
     text-decoration: none;
@@ -17,7 +20,9 @@ const GlobalStyle = createGlobalStyle`
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-    <GlobalStyle />
+    <ThemeProvider theme={darkTheme}>
+      <RouterProvider router={router} />
+      <GlobalStyle />
+    </ThemeProvider>
   </React.StrictMode>
 );
