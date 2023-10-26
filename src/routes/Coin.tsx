@@ -1,12 +1,31 @@
-import { Outlet, useLocation, useParams } from "react-router-dom";
+import { Outlet, useLocation, useParams, Link } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoinByCoinId } from "../api";
 
-const Header = styled.header``;
+const Header = styled.header`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const Title = styled.h1`
   text-align: center;
   font-size: 56px;
+`;
+const GoHome = styled.span`
+  display: inline-block;
+  padding: 0.5rem;
+  background-color: ${(props) => props.theme.colors.card};
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+
+  svg {
+    width: 28px;
+    background-color: inherit;
+  }
 `;
 
 interface ICoinInfo {
@@ -57,6 +76,24 @@ export default function Coin() {
   return (
     <>
       <Header>
+        <GoHome>
+          <Link to="/">
+            <svg
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+              ></path>
+            </svg>
+          </Link>
+        </GoHome>
         <Title>
           {isLoading ? "Loading..." : coinName ? coinName : coinInfo?.name}
         </Title>
