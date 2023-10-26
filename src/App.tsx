@@ -1,8 +1,18 @@
+import { Outlet } from "react-router-dom";
+import { styled } from "styled-components";
+
+const Container = styled.div`
+  width: 100%;
+  max-width: 576px;
+  margin: 0 auto;
+  padding: 5rem 0;
+`;
+
 function App() {
   return (
-    <div>
-      <h1>Wow~</h1>
-    </div>
+    <Container>
+      <Outlet />
+    </Container>
   );
 }
 
