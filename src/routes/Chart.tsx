@@ -2,7 +2,9 @@ import styled from "styled-components";
 import ApexChart from "react-apexcharts";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import { fetchCoinOHLCVHistorical } from "../api";
+import { isDarkState } from "../recoil/themeAtom";
 
 const ChartWrapper = styled.div`
   margin-top: 3rem;
@@ -25,6 +27,8 @@ export default function Chart() {
     queryKey: ["fetchCoinOHLCV", coinId],
     queryFn: () => fetchCoinOHLCVHistorical(coinId || ""),
   });
+
+  const isDark = useRecoilValue(isDarkState);
 
   const series = [
     {
@@ -49,7 +53,7 @@ export default function Chart() {
         <ApexChart
           series={series}
           options={{
-            theme: { mode: "dark" },
+            theme: { mode: isDark ? "dark" : "light" },
             chart: {
               type: "candlestick",
               height: 400,
