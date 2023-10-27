@@ -163,7 +163,7 @@ export default function Coin() {
 
   const { data: coinInfo, isLoading } = useQuery<ICoinInfo>({
     queryKey: ["fetchCoin", coinId],
-    queryFn: () => fetchCoinByCoinId(coinId),
+    queryFn: () => fetchCoinByCoinId(coinId || ""),
   });
 
   return (
