@@ -204,7 +204,10 @@ export default function Coin() {
           </Link>
         </MenuItem>
         <MenuItem>
-          <Link to={`/${coinId}/price`} state={{ coinName }}>
+          <Link
+            to={`/${coinId}/price`}
+            state={{ coinName, priceData: coinInfo?.quotes.USD }}
+          >
             Price
           </Link>
         </MenuItem>
