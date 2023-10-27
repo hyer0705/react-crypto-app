@@ -2,13 +2,24 @@ import { DefaultTheme } from "styled-components";
 
 const darkTheme: DefaultTheme = {
   colors: {
-    bg: "#232325",
-    card: "#2D2C31",
-    text: "#E1E1E3",
-    subText: "#59585D",
-    activeTab: "#B6F500",
+    bg: "#23262F",
+    card: "#393C44",
+    text: "#F0F0F1",
+    subText: "#7B7D82",
+    activeTab: "#58BC7C",
     activeText: "#000",
   },
 };
 
-export { darkTheme };
+const lightTheme: DefaultTheme = {
+  colors: {
+    bg: "#F6F6F6",
+    card: "#FFFFFF",
+    text: "#23262F",
+    subText: "#919297",
+    activeTab: "#58BC7C",
+    activeText: "#000",
+  },
+};
+
+export { darkTheme, lightTheme };
