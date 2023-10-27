@@ -23,6 +23,7 @@ const CoinItem = styled.li`
   margin-bottom: 1.5rem;
   background-color: ${(props) => props.theme.colors.card};
   border-radius: 0.5rem;
+  overflow: hidden;
   a {
     width: 100%;
     padding: 1.5rem 3rem;

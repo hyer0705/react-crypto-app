@@ -25,6 +25,7 @@ const InfoItem = styled.div`
   }
 `;
 const InfoTitle = styled.h1`
+  font-weight: 700;
   border-bottom: 3px solid ${(props) => props.theme.colors.card};
   padding: 1rem 0;
   margin-bottom: 1rem;
