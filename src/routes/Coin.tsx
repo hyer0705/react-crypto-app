@@ -30,7 +30,7 @@ const GoHome = styled.span`
 `;
 
 const Main = styled.main`
-  margin-top: 3rem;
+  margin: 3rem 0;
 `;
 const InfoCard = styled.div`
   background: ${(props) => props.theme.colors.card};
@@ -75,6 +75,30 @@ const SupplyText = styled.span`
   }
   &:nth-child(2) {
     margin-right: 1rem;
+  }
+`;
+
+const MenuWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+const MenuItem = styled.div`
+  background-color: ${(props) => props.theme.colors.card};
+  width: 48%;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background-color: ${(props) => props.theme.colors.activeTab};
+    color: ${(props) => props.theme.colors.activeText};
+  }
+  a {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    text-align: center;
   }
 `;
 
@@ -131,7 +155,7 @@ export default function Coin() {
             <svg
               fill="none"
               stroke="currentColor"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
@@ -173,6 +197,18 @@ export default function Coin() {
           </InfoCard>
         )}
       </Main>
+      <MenuWrapper>
+        <MenuItem>
+          <Link to={`/${coinId}/chart`} state={{ coinName }}>
+            Chart
+          </Link>
+        </MenuItem>
+        <MenuItem>
+          <Link to={`/${coinId}/price`} state={{ coinName }}>
+            Price
+          </Link>
+        </MenuItem>
+      </MenuWrapper>
       <Outlet />
     </>
   );
