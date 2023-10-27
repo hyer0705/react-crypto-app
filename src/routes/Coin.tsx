@@ -95,8 +95,9 @@ const MenuItem = styled.div<{ $isActive: boolean }>`
   background-color: ${(props) =>
     props.$isActive ? props.theme.colors.activeTab : props.theme.colors.card};
 
-  width: 48%;
+  overflow: hidden;
   border-radius: 0.5rem;
+  width: 48%;
   font-weight: 700;
   display: flex;
   justify-content: center;
