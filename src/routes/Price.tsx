@@ -51,6 +51,7 @@ export default function Price() {
         "Loading..."
       ) : (
         <>
+          <InfoTitle>Volume</InfoTitle>
           <InfoWrapper>
             <InfoItem>
               <h1>Volume (24h)</h1>
