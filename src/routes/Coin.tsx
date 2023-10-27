@@ -120,7 +120,7 @@ const MenuItem = styled.div<{ $isActive: boolean }>`
   }
 `;
 
-interface ICoinInfo {
+export interface ICoinInfo {
   id: string;
   name: string;
   symbol: string;

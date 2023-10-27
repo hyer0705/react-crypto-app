@@ -1,5 +1,8 @@
 import { useLocation, useParams } from "react-router";
 import styled from "styled-components";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCoinByCoinId } from "../api";
+import { ICoinInfo } from "./Coin";
 
 const Main = styled.main`
   margin-top: 3rem;
@@ -32,53 +35,58 @@ const InfoTitle = styled.h1`
 `;
 
 export default function Price() {
-  const {
-    state: { priceData },
-  } = useLocation();
+  const { state } = useLocation();
+  const { coinId } = useParams();
 
-  /**
-   * To Do
-   * 여기서도 data를 react query를 통해 fetch를 할 것인지?
-   * state 값 넘겨주는 거 없으면 하는게 맞다고 생각
-   */
+  const { data, isLoading } = useQuery<ICoinInfo>({
+    queryKey: ["fetchCoinPrice", coinId],
+    queryFn: () => fetchCoinByCoinId(coinId || ""),
+  });
+
+  const priceData = state ? state.priceData : data?.quotes.USD;
 
   return (
     <Main>
-      <InfoTitle>Volume</InfoTitle>
-      <InfoWrapper>
-        <InfoItem>
-          <h1>Volume (24h)</h1>
-          <span>{priceData.volume_24h.toFixed(2)}</span>
-        </InfoItem>
-        <InfoItem>
-          <h1>% Change (24h)</h1>
-          <span>{priceData.volume_24h_change_24h} %</span>
-        </InfoItem>
-      </InfoWrapper>
+      {isLoading ? (
+        "Loading..."
+      ) : (
+        <>
+          <InfoWrapper>
+            <InfoItem>
+              <h1>Volume (24h)</h1>
+              <span>{priceData?.volume_24h.toFixed(2)}</span>
+            </InfoItem>
+            <InfoItem>
+              <h1>% Change (24h)</h1>
+              <span>{priceData?.volume_24h_change_24h} %</span>
+            </InfoItem>
+          </InfoWrapper>
 
-      <InfoTitle>Market Cap</InfoTitle>
-      <InfoWrapper>
-        <InfoItem>
-          <h1>Market Cap</h1>
-          <span>{priceData.market_cap}</span>
-        </InfoItem>
-        <InfoItem>
-          <h1>% Change (24h)</h1>
-          <span>{priceData.market_cap_change_24h} %</span>
-        </InfoItem>
-      </InfoWrapper>
+          <InfoTitle>Market Cap</InfoTitle>
+          <InfoWrapper>
+            <InfoItem>
+              <h1>Market Cap</h1>
+              <span>{priceData?.market_cap}</span>
+            </InfoItem>
+            <InfoItem>
+              <h1>% Change (24h)</h1>
+              <span>{priceData?.market_cap_change_24h} %</span>
+            </InfoItem>
+          </InfoWrapper>
 
-      <InfoTitle>ATH Price</InfoTitle>
-      <InfoWrapper>
-        <InfoItem>
-          <h1>ATH</h1>
-          <span>$ {`${priceData.ath_price.toFixed(2)}`}</span>
-        </InfoItem>
-        <InfoItem>
-          <h1>% Change</h1>
-          <span>{priceData.percent_from_price_ath} %</span>
-        </InfoItem>
-      </InfoWrapper>
+          <InfoTitle>ATH Price</InfoTitle>
+          <InfoWrapper>
+            <InfoItem>
+              <h1>ATH</h1>
+              <span>$ {`${priceData?.ath_price.toFixed(2)}`}</span>
+            </InfoItem>
+            <InfoItem>
+              <h1>% Change</h1>
+              <span>{priceData?.percent_from_price_ath} %</span>
+            </InfoItem>
+          </InfoWrapper>
+        </>
+      )}
     </Main>
   );
 }
