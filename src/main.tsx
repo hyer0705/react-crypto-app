@@ -11,8 +11,10 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
   * {
     box-sizing: border-box;
-    background-color: ${(props) => props.theme.colors.bg};
     color: ${(props) => props.theme.colors.text};
+  }
+  body {
+    background-color: ${(props) => props.theme.colors.bg};
   }
   a {
     text-decoration: none;

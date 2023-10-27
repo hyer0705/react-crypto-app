@@ -7,6 +7,7 @@ const darkTheme: DefaultTheme = {
     text: "#E1E1E3",
     subText: "#59585D",
     activeTab: "#B6F500",
+    activeText: "#000",
   },
 };
 

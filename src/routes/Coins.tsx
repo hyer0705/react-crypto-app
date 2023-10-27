@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import fetchCoins from "../api";
+
 import makeImgPath from "../utils/makePath";
+import { fetchCoins } from "../api";
 
 const Header = styled.header``;
 const Title = styled.h1`
