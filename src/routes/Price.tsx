@@ -39,6 +39,7 @@ export default function Price() {
   /**
    * To Do
    * 여기서도 data를 react query를 통해 fetch를 할 것인지?
+   * state 값 넘겨주는 거 없으면 하는게 맞다고 생각
    */
 
   return (
