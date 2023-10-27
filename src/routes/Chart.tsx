@@ -1,95 +1,80 @@
 import styled from "styled-components";
 import ApexChart from "react-apexcharts";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import { fetchCoinOHLCVHistorical } from "../api";
 
 const ChartWrapper = styled.div`
   margin-top: 3rem;
 `;
 
+interface ICoinOHLCV {
+  close: string;
+  high: string;
+  low: string;
+  market_cap: number;
+  open: string;
+  time_close: number;
+  time_open: number;
+  volume: string;
+}
+
 export default function Chart() {
+  const { coinId } = useParams();
+  const { data, isLoading } = useQuery<ICoinOHLCV[]>({
+    queryKey: ["fetchCoinOHLCV", coinId],
+    queryFn: () => fetchCoinOHLCVHistorical(coinId || ""),
+  });
+
   const series = [
     {
-      data: [
-        {
-          x: new Date(1538778600000),
-          y: [6629.81, 6650.5, 6623.04, 6633.33],
-        },
-        {
-          x: new Date(1538780400000),
-          y: [6632.01, 6643.59, 6620, 6630.11],
-        },
-        {
-          x: new Date(1538782200000),
-          y: [6630.71, 6648.95, 6623.34, 6635.65],
-        },
-        {
-          x: new Date(1538784000000),
-          y: [6635.65, 6651, 6629.67, 6638.24],
-        },
-        {
-          x: new Date(1538785800000),
-          y: [6638.24, 6640, 6620, 6624.47],
-        },
-        {
-          x: new Date(1538787600000),
-          y: [6624.53, 6636.03, 6621.68, 6624.31],
-        },
-        {
-          x: new Date(1538789400000),
-          y: [6624.61, 6632.2, 6617, 6626.02],
-        },
-        {
-          x: new Date(1538791200000),
-          y: [6627, 6627.62, 6584.22, 6603.02],
-        },
-        {
-          x: new Date(1538793000000),
-          y: [6605, 6608.03, 6598.95, 6604.01],
-        },
-        {
-          x: new Date(1538794800000),
-          y: [6604.5, 6614.4, 6602.26, 6608.02],
-        },
-        {
-          x: new Date(1538796600000),
-          y: [6608.02, 6610.68, 6601.99, 6608.91],
-        },
-        {
-          x: new Date(1538798400000),
-          y: [6608.91, 6618.99, 6608.01, 6612],
-        },
-        {
-          x: new Date(1538800200000),
-          y: [6612, 6615.13, 6605.09, 6612],
-        },
-        {
-          x: new Date(1538802000000),
-          y: [6612, 6624.12, 6608.43, 6622.95],
-        },
-        {
-          x: new Date(1538803800000),
-          y: [6623.91, 6623.91, 6615, 6615.67],
-        },
-      ],
+      name: "candle",
+      data: data?.map((v) => ({
+        x: new Date(v.time_close),
+        y: [
+          parseFloat(v.open),
+          parseFloat(v.high),
+          parseFloat(v.low),
+          parseFloat(v.close),
+        ],
+      })),
     },
   ];
+
   return (
     <ChartWrapper>
-      <ApexChart
-        series={series}
-        options={{
-          theme: { mode: "dark" },
-          chart: {
-            type: "candlestick",
-            height: 400,
-            id: "candlestick",
-            toolbar: { show: false },
-          },
-          xaxis: { labels: { show: false } },
-          yaxis: { labels: { show: false } },
-        }}
-        type="candlestick"
-        height={400}
-      />
+      {isLoading ? (
+        "Loading chart..."
+      ) : (
+        <ApexChart
+          series={series}
+          options={{
+            theme: { mode: "dark" },
+            chart: {
+              type: "candlestick",
+              height: 400,
+              id: "candlestick",
+              toolbar: { show: false },
+              background: "transparent",
+            },
+            grid: { show: false },
+            stroke: {
+              curve: "smooth",
+              width: 4,
+            },
+            xaxis: {
+              labels: { show: false },
+              axisBorder: { show: false },
+              axisTicks: { show: false },
+              type: "datetime",
+              categories: data?.map((v) => v.time_close),
+            },
+            yaxis: { show: false },
+          }}
+          type="candlestick"
+          height={400}
+        />
+      )}
     </ChartWrapper>
   );
 }
