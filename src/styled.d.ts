@@ -9,6 +9,7 @@ declare module "styled-components" {
       subText: string;
       activeTab: string;
       activeText: string;
+      hoverTab: string;
     };
   }
 }

@@ -8,6 +8,7 @@ const darkTheme: DefaultTheme = {
     subText: "#7B7D82",
     activeTab: "#58BC7C",
     activeText: "#000",
+    hoverTab: "#94CA75",
   },
 };
 
@@ -19,6 +20,7 @@ const lightTheme: DefaultTheme = {
     subText: "#919297",
     activeTab: "#58BC7C",
     activeText: "#000",
+    hoverTab: "#94CA75",
   },
 };
 
