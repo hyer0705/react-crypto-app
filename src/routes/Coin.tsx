@@ -120,7 +120,7 @@ const MenuItem = styled.div<{ $isActive: boolean }>`
   }
 `;
 
-interface ICoinInfo {
+export interface ICoinInfo {
   id: string;
   name: string;
   symbol: string;
@@ -155,9 +155,7 @@ interface ICoinInfo {
 }
 
 export default function Coin() {
-  const {
-    state: { coinName },
-  } = useLocation();
+  const { state } = useLocation();
   const { coinId } = useParams();
   const matchPrice = useMatch("/:coinId/price");
   const matchChart = useMatch("/:coinId/chart");
@@ -172,7 +170,7 @@ export default function Coin() {
       <Helmet>
         <title>
           {makeTitle(
-            coinName ? coinName : isLoading ? "Loading..." : coinInfo?.name
+            state ? state.coinName : isLoading ? "Loading..." : coinInfo?.name
           )}
         </title>
       </Helmet>
@@ -196,7 +194,7 @@ export default function Coin() {
           </Link>
         </GoHome>
         <Title>
-          {isLoading ? "Loading..." : coinName ? coinName : coinInfo?.name}
+          {isLoading ? "Loading..." : state ? state.coinName : coinInfo?.name}
         </Title>
       </Header>
       <Main>
@@ -226,14 +224,20 @@ export default function Coin() {
       </Main>
       <MenuWrapper>
         <MenuItem $isActive={matchChart !== null}>
-          <Link to={`/${coinId}/chart`} state={{ coinName }}>
+          <Link
+            to={`/${coinId}/chart`}
+            state={{ coinName: state ? state.coinName : coinInfo?.name }}
+          >
             Chart
           </Link>
         </MenuItem>
         <MenuItem $isActive={matchPrice !== null}>
           <Link
             to={`/${coinId}/price`}
-            state={{ coinName, priceData: coinInfo?.quotes.USD }}
+            state={{
+              coinName: state ? state.coinName : coinInfo?.name,
+              priceData: coinInfo?.quotes.USD,
+            }}
           >
             Price
           </Link>
