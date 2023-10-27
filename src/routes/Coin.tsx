@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 import { fetchCoinByCoinId } from "../api";
 import makeImgPath from "../utils/makePath";
 import { makeTitle } from "../utils/makeTitle";
+import { isDOMComponent } from "react-dom/test-utils";
 
 const Header = styled.header`
   position: relative;
@@ -152,7 +153,11 @@ export default function Coin() {
   return (
     <>
       <Helmet>
-        <title>{makeTitle(coinName)}</title>
+        <title>
+          {makeTitle(
+            coinName ? coinName : isLoading ? "Loading..." : coinInfo?.name
+          )}
+        </title>
       </Helmet>
       <Header>
         <GoHome>
