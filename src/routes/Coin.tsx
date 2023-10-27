@@ -1,8 +1,16 @@
-import { Outlet, useLocation, useParams, Link } from "react-router-dom";
+import {
+  Outlet,
+  useLocation,
+  useParams,
+  Link,
+  useMatch,
+} from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import { fetchCoinByCoinId } from "../api";
 import makeImgPath from "../utils/makePath";
+import { makeTitle } from "../utils/makeTitle";
 
 const Header = styled.header`
   position: relative;
@@ -83,22 +91,31 @@ const MenuWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-const MenuItem = styled.div`
-  background-color: ${(props) => props.theme.colors.card};
+const MenuItem = styled.div<{ $isActive: boolean }>`
+  background-color: ${(props) =>
+    props.$isActive ? props.theme.colors.activeTab : props.theme.colors.card};
+
   width: 48%;
   border-radius: 0.5rem;
   font-weight: 700;
   display: flex;
   justify-content: center;
   align-items: center;
+
   &:hover {
     background-color: ${(props) => props.theme.colors.activeTab};
-    color: ${(props) => props.theme.colors.activeText};
+    a {
+      color: ${(props) => props.theme.colors.activeText};
+    }
   }
   a {
     width: 100%;
     padding: 1rem 1.5rem;
     text-align: center;
+    color: ${(props) =>
+      props.$isActive
+        ? props.theme.colors.activeText
+        : props.theme.colors.text};
   }
 `;
 
@@ -141,6 +158,8 @@ export default function Coin() {
     state: { coinName },
   } = useLocation();
   const { coinId } = useParams();
+  const matchPrice = useMatch("/:coinId/price");
+  const matchChart = useMatch("/:coinId/chart");
 
   const { data: coinInfo, isLoading } = useQuery<ICoinInfo>({
     queryKey: ["fetchCoin", coinId],
@@ -149,6 +168,13 @@ export default function Coin() {
 
   return (
     <>
+      <Helmet>
+        <title>
+          {makeTitle(
+            coinName ? coinName : isLoading ? "Loading..." : coinInfo?.name
+          )}
+        </title>
+      </Helmet>
       <Header>
         <GoHome>
           <Link to="/">
@@ -198,13 +224,16 @@ export default function Coin() {
         )}
       </Main>
       <MenuWrapper>
-        <MenuItem>
+        <MenuItem $isActive={matchChart !== null}>
           <Link to={`/${coinId}/chart`} state={{ coinName }}>
             Chart
           </Link>
         </MenuItem>
-        <MenuItem>
-          <Link to={`/${coinId}/price`} state={{ coinName }}>
+        <MenuItem $isActive={matchPrice !== null}>
+          <Link
+            to={`/${coinId}/price`}
+            state={{ coinName, priceData: coinInfo?.quotes.USD }}
+          >
             Price
           </Link>
         </MenuItem>
