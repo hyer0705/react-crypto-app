@@ -1,7 +1,7 @@
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { darkTheme, lightTheme } from "./app-theme.ts";
 import reset from "styled-reset";
 import { useRecoilState } from "recoil";
+import { darkTheme, lightTheme } from "./app-theme.ts";
 
 import { Outlet } from "react-router-dom";
 import { styled } from "styled-components";
@@ -31,6 +31,7 @@ const Container = styled.div`
 `;
 
 const ThemeButton = styled.button`
+  z-index: 2;
   position: absolute;
   right: 0;
   width: 2rem;
@@ -47,12 +48,11 @@ const ThemeButton = styled.button`
 
 function App() {
   const [isDark, setIsDark] = useRecoilState(isDarkState);
-  const onThemeBtnClick = () => setIsDark((prev) => !prev);
-
+  const toggleTheme = () => setIsDark((prev: boolean) => !prev);
   return (
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
       <Container>
-        <ThemeButton onClick={onThemeBtnClick}>
+        <ThemeButton onClick={toggleTheme}>
           {isDark ? (
             <svg
               fill="none"
