@@ -39,7 +39,7 @@ export default function Chart() {
         ],
       })),
     },
-  ];
+  ] as any;
 
   return (
     <ChartWrapper>
