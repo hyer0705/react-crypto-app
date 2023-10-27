@@ -8,6 +8,7 @@ declare module "styled-components" {
       text: string;
       subText: string;
       activeTab: string;
+      activeText: string;
     };
   }
 }

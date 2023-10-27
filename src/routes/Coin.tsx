@@ -2,6 +2,7 @@ import { Outlet, useLocation, useParams, Link } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoinByCoinId } from "../api";
+import makeImgPath from "../utils/makePath";
 
 const Header = styled.header`
   position: relative;
@@ -11,7 +12,7 @@ const Header = styled.header`
 `;
 const Title = styled.h1`
   text-align: center;
-  font-size: 56px;
+  font-size: 2rem;
 `;
 const GoHome = styled.span`
   display: inline-block;
@@ -25,6 +26,55 @@ const GoHome = styled.span`
   svg {
     width: 28px;
     background-color: inherit;
+  }
+`;
+
+const Main = styled.main`
+  margin-top: 3rem;
+`;
+const InfoCard = styled.div`
+  background: ${(props) => props.theme.colors.card};
+  padding: 1rem 3rem;
+  border-radius: 0.5rem;
+`;
+
+const InfoItem = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  img {
+    width: 52px;
+    margin-right: 1rem;
+  }
+`;
+const InfoSubText = styled.span`
+  color: ${(props) => props.theme.colors.subText};
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-right: 1rem;
+`;
+const RankText = styled.span`
+  background-color: ${(props) => props.theme.colors.activeTab};
+  color: ${(props) => props.theme.colors.activeText};
+  font-weight: 700;
+  padding: 0.3rem 0.8rem;
+  border-radius: 1rem;
+`;
+const PriceText = styled.span`
+  font-size: 2rem;
+  font-weight: 700;
+`;
+const SupplyText = styled.span`
+  font-weight: 700;
+  margin-right: 0.5rem;
+
+  &:nth-child(odd) {
+    color: ${(props) => props.theme.colors.subText};
+  }
+  &:nth-child(2) {
+    margin-right: 1rem;
   }
 `;
 
@@ -98,6 +148,31 @@ export default function Coin() {
           {isLoading ? "Loading..." : coinName ? coinName : coinInfo?.name}
         </Title>
       </Header>
+      <Main>
+        {isLoading ? (
+          "Loading..."
+        ) : (
+          <InfoCard>
+            <InfoItem>
+              <img
+                src={makeImgPath(coinInfo?.symbol.toLowerCase() || "")}
+                alt={coinInfo?.name}
+              />
+              <InfoSubText>{coinInfo?.name} Price</InfoSubText>
+              <RankText>Rank {coinInfo?.rank}</RankText>
+            </InfoItem>
+            <InfoItem>
+              <PriceText>${coinInfo?.quotes.USD.price?.toFixed(2)}</PriceText>
+            </InfoItem>
+            <InfoItem>
+              <SupplyText>total supply: </SupplyText>
+              <SupplyText>${coinInfo?.total_supply}</SupplyText>
+              <SupplyText>max supply: </SupplyText>
+              <SupplyText>${coinInfo?.max_supply}</SupplyText>
+            </InfoItem>
+          </InfoCard>
+        )}
+      </Main>
       <Outlet />
     </>
   );
