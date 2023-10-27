@@ -32,9 +32,8 @@ const InfoTitle = styled.h1`
 
 export default function Price() {
   const {
-    state: { coinName, priceData },
+    state: { priceData },
   } = useLocation();
-  const { coinId } = useParams();
 
   /**
    * To Do

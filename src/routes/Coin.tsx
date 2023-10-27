@@ -1,8 +1,10 @@
 import { Outlet, useLocation, useParams, Link } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import { fetchCoinByCoinId } from "../api";
 import makeImgPath from "../utils/makePath";
+import { makeTitle } from "../utils/makeTitle";
 
 const Header = styled.header`
   position: relative;
@@ -149,6 +151,9 @@ export default function Coin() {
 
   return (
     <>
+      <Helmet>
+        <title>{makeTitle(coinName)}</title>
+      </Helmet>
       <Header>
         <GoHome>
           <Link to="/">

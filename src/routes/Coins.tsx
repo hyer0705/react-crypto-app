@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import makeImgPath from "../utils/makePath";
 import { fetchCoins } from "../api";
+import { makeTitle } from "../utils/makeTitle";
 
 const Header = styled.header``;
 const Title = styled.h1`
@@ -81,6 +83,9 @@ export default function Coins() {
 
   return (
     <>
+      <Helmet>
+        <title>{makeTitle("Home")}</title>
+      </Helmet>
       <Header>
         <Title>Coins</Title>
       </Header>
