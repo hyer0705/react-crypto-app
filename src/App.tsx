@@ -5,7 +5,7 @@ const Container = styled.div`
   width: 100%;
   max-width: 576px;
   margin: 0 auto;
-  padding: 5rem 0;
+  padding: 3rem 0;
 `;
 
 function App() {
