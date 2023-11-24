@@ -1,5 +1,4 @@
 # react-crypto-app
- for react challenge
 
 ## 배포주소   
 
